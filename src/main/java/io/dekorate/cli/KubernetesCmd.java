@@ -11,11 +11,15 @@ public class KubernetesCmd implements Runnable {
 
   @Mixin
   MetaOptions meta;
-  
+
+  @Mixin
+  ContainerOptions container;
+
   @Override
   public void run() {
     Generator.init("kubernetes");
     Generator.applyMeta(meta);
+    Generator.applyMeta(container);
     Generator.generate();
   }
 
