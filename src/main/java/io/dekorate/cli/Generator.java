@@ -9,7 +9,9 @@ import java.util.Set;
 import io.dekorate.Session;
 import io.dekorate.SessionReader;
 import io.dekorate.SessionWriter;
+import io.dekorate.kubernetes.config.Annotation;
 import io.dekorate.kubernetes.config.Label;
+import io.dekorate.kubernetes.decorator.AddAnnotationDecorator;
 import io.dekorate.kubernetes.decorator.AddLabelDecorator;
 import io.dekorate.processor.SimpleFileReader;
 import io.dekorate.processor.SimpleFileWriter;
@@ -50,6 +52,9 @@ public class Generator {
 
   public static void applyMeta(MetaOptions meta) {
     Session session = Session.getSession();
+    if (meta.annotations != null) {
+      meta.annotations.forEach((key,value) -> session.resources().decorate(new AddAnnotationDecorator(new Annotation(key, value))));
+    }
     if (meta.labels != null) {
       meta.labels.forEach((key,value) -> session.resources().decorate(new AddLabelDecorator(new Label(key, value))));
     }

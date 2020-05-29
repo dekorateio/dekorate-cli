@@ -56,6 +56,21 @@ The option can be used multiple times:
 dekorate kubernetes -l foo=bar -l bar=baz
 ```
 
+### Annotations
+
+To add one or more labels to the generated manifests, you can use the `-a, --annotation` option:
+
+```
+dekorate kubernetes -a foo=bar
+```
+
+The option can be used multiple times:
+
+```
+dekorate kubernetes -a foo=bar -a bar=baz
+```
+
+
 
 ## Generating Openshift manifests
 
