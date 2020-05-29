@@ -42,6 +42,31 @@ The rest of this document will assume that the tool is available in the `$PATH` 
 dekorate kubernetes
 ```
 
+### Name and version
+
+To specify the name of the resources inside the generated manifests, you can use the `-n, --name` option:
+
+```
+dekorate kubernetes -n my-app
+```
+
+This name, will be used to: 
+- name resources
+- in the `app.kubernetes.io/name` label
+- as container image name
+
+In the same spirit you can specify the version using `-v, --ver` option:
+
+```
+dekorate kubernetes -v 1.0.0
+```
+
+This version, will be used to: 
+- in the `app.kubernetes.io/version` label
+- as container image tag
+
+**Note**: If no name/version is specified, dekorate will try to guess them by parsing the project configuration.
+
 ### Labels
 
 To add one or more labels to the generated manifests, you can use the `-l, --label` option:
