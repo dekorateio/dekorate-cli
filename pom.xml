@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.dekorate</groupId>
   <artifactId>dekorate-cli</artifactId>
@@ -18,7 +18,8 @@
     <quarkus.platform.version>1.4.2.Final</quarkus.platform.version>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
 
-    <dekorate.version>0.12.1</dekorate.version>
+    <dekorate.version>0.12.2</dekorate.version>
+    <picocli.version>4.3.2</picocli.version>
   </properties>
 
   <dependencyManagement>
@@ -33,14 +34,40 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
+
+    <dependency>
+      <groupId>info.picocli</groupId>
+      <artifactId>picocli</artifactId>
+      <version>${picocli.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>io.dekorate</groupId>
       <artifactId>kubernetes-annotations</artifactId>
       <version>${dekorate.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>io.dekorate</groupId>
+      <artifactId>openshift-annotations</artifactId>
+      <version>${dekorate.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.dekorate</groupId>
+      <artifactId>knative-annotations</artifactId>
+      <version>${dekorate.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.dekorate</groupId>
+      <artifactId>tekton-annotations</artifactId>
+      <version>${dekorate.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy</artifactId>
+      <artifactId>quarkus-arc</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
