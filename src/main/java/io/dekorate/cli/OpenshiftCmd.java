@@ -1,12 +1,18 @@
 package io.dekorate.cli;
 
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Mixin;
 
 @Command(name = "openshift", mixinStandardHelpOptions = true, version = "0.1", description = "Generates Openshift manifests.")
 public class OpenshiftCmd implements Runnable {
 
+  @Mixin
+  MetaOptions meta;
+
   @Override
   public void run() {
-    Generator.generate("openshift");
+    Generator.init("openshift");
+    Generator.applyMeta(meta);
+    Generator.generate();
   }
 }
