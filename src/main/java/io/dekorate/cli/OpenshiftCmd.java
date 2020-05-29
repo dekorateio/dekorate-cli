@@ -10,13 +10,16 @@ public class OpenshiftCmd implements Runnable {
   MetaOptions meta;
 
   @Mixin
+  PodOptions pod;
+
+  @Mixin
   ContainerOptions container;
 
   @Override
   public void run() {
     Generator.init("openshift");
-    Generator.applyMeta(meta);
-    Generator.applyMeta(container);
+    Generator.apply(meta);
+    Generator.apply(container);
     Generator.generate();
   }
 }

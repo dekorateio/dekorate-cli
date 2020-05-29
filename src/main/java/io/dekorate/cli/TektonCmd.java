@@ -11,7 +11,7 @@ public class TektonCmd implements Runnable {
   @Override
   public void run() {
     Generator.init("tekton-pipeline", "tekton-pipeline-run", "tekton-task", "tekton-task-run");
-    Generator.applyMeta(meta);
+    Generator.apply(meta);
     Generator.generate();
   }
 }
