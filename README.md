@@ -71,6 +71,34 @@ dekorate kubernetes -a foo=bar -a bar=baz
 ```
 
 
+### Environment variables
+
+To add one or more environment variables to the containers inside the generated manifests, you can use the `-e, --env-var` option:
+
+```
+dekorate kubernetes -e FOO=BAR
+```
+
+In addition to simple key value pairs its also possible to define evironment variables sources using:
+- Secret
+- ConfigMap
+
+### Secret Envrionment variable sources
+
+To add a secret as an environment variable source, you can use the `-es, --env-from-secret` option:
+
+```
+dekorate kubernetes -es my-secret
+```
+
+### Configmap Envrionment variable sources
+
+To add a configmap as an environment variable source, you can use the `-es, --env-from-configmap` option:
+
+```
+dekorate kubernetes -es my-configmap
+```
+
 
 ## Generating Openshift manifests
 
