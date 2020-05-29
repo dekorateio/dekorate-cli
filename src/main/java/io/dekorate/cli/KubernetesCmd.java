@@ -1,5 +1,8 @@
 package io.dekorate.cli;
 
+import io.dekorate.docker.config.DockerBuildConfigBuilder;
+import io.dekorate.kubernetes.config.KubernetesConfigBuilder;
+import io.dekorate.utils.Strings;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Mixin;
 

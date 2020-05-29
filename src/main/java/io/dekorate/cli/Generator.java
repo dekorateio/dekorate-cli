@@ -9,6 +9,9 @@ import java.util.Set;
 import io.dekorate.Session;
 import io.dekorate.SessionReader;
 import io.dekorate.SessionWriter;
+import io.dekorate.WithProject;
+import io.dekorate.config.PropertyConfiguration;
+import io.dekorate.deps.kubernetes.api.builder.VisitableBuilder;
 import io.dekorate.kubernetes.config.Annotation;
 import io.dekorate.kubernetes.config.Label;
 import io.dekorate.kubernetes.decorator.AddAnnotationDecorator;
@@ -17,8 +20,9 @@ import io.dekorate.processor.SimpleFileReader;
 import io.dekorate.processor.SimpleFileWriter;
 import io.dekorate.project.FileProjectFactory;
 import io.dekorate.project.Project;
+import io.dekorate.utils.Strings;
 
-public class Generator {
+public class Generator implements WithProject {
 
   private static final String DOT = ".";
   private static final String DOT_DEKORATE = ".dekorate";
@@ -49,9 +53,16 @@ public class Generator {
     session.close();
   }
 
-
   public static void applyMeta(MetaOptions meta) {
     Session session = Session.getSession();
+    if (Strings.isNotNullOrEmpty(meta.name)) {
+      session.configurators().add(new ApplyNameConfigurator(meta.name));
+    }
+
+    if (Strings.isNotNullOrEmpty(meta.version)) {
+      session.configurators().add(new ApplyVersionConfigurator(meta.version));
+    }
+    
     if (meta.annotations != null) {
       meta.annotations.forEach((key,value) -> session.resources().decorate(new AddAnnotationDecorator(new Annotation(key, value))));
     }
@@ -60,3 +71,4 @@ public class Generator {
     }
   }
 }
+
