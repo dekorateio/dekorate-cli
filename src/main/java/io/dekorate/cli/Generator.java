@@ -13,8 +13,11 @@ import io.dekorate.WithProject;
 import io.dekorate.config.PropertyConfiguration;
 import io.dekorate.deps.kubernetes.api.builder.VisitableBuilder;
 import io.dekorate.kubernetes.config.Annotation;
+import io.dekorate.kubernetes.config.Env;
+import io.dekorate.kubernetes.config.EnvBuilder;
 import io.dekorate.kubernetes.config.Label;
 import io.dekorate.kubernetes.decorator.AddAnnotationDecorator;
+import io.dekorate.kubernetes.decorator.AddEnvVarDecorator;
 import io.dekorate.kubernetes.decorator.AddLabelDecorator;
 import io.dekorate.processor.SimpleFileReader;
 import io.dekorate.processor.SimpleFileWriter;
@@ -68,6 +71,21 @@ public class Generator implements WithProject {
     }
     if (meta.labels != null) {
       meta.labels.forEach((key,value) -> session.resources().decorate(new AddLabelDecorator(new Label(key, value))));
+    }
+  }
+
+  public static void applyMeta(ContainerOptions container) {
+    Session session = Session.getSession();
+    if (container.envVars != null) {
+      container.envVars.forEach((key,value) -> session.resources().decorate(new AddEnvVarDecorator(new Env(key, value, null, null, null))));
+    }
+
+    if (container.envFromSecrets != null) {
+      container.envFromSecrets.forEach(s -> session.resources().decorate(new AddEnvVarDecorator(new EnvBuilder().withSecret(s).build())));
+    }
+
+    if (container.envFromConfigMaps != null) {
+      container.envFromConfigMaps.forEach(c -> session.resources().decorate(new AddEnvVarDecorator(new EnvBuilder().withConfigmap(c).build())));
     }
   }
 }
