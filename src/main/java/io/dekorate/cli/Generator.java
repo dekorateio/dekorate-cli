@@ -10,8 +10,6 @@ import io.dekorate.Session;
 import io.dekorate.SessionReader;
 import io.dekorate.SessionWriter;
 import io.dekorate.WithProject;
-import io.dekorate.config.PropertyConfiguration;
-import io.dekorate.deps.kubernetes.api.builder.VisitableBuilder;
 import io.dekorate.kubernetes.config.Annotation;
 import io.dekorate.kubernetes.config.Env;
 import io.dekorate.kubernetes.config.EnvBuilder;
@@ -56,7 +54,7 @@ public class Generator implements WithProject {
     session.close();
   }
 
-  public static void applyMeta(MetaOptions meta) {
+  public static void apply(MetaOptions meta) {
     Session session = Session.getSession();
     if (Strings.isNotNullOrEmpty(meta.name)) {
       session.configurators().add(new ApplyNameConfigurator(meta.name));
@@ -74,7 +72,15 @@ public class Generator implements WithProject {
     }
   }
 
-  public static void applyMeta(ContainerOptions container) {
+  public static void apply(PodOptions pod) {
+    Session session = Session.getSession();
+    if (pod.replicas != 1) {
+      session.resources().decorate(new io.dekorate.kubernetes.decorator.ApplyReplicasDecorator(null, pod.replicas));
+      session.resources().decorate(new io.dekorate.openshift.decorator.ApplyReplicasDecorator(null, pod.replicas));
+    }
+  }
+
+  public static void apply(ContainerOptions container) {
     Session session = Session.getSession();
     if (container.envVars != null) {
       container.envVars.forEach((key,value) -> session.resources().decorate(new AddEnvVarDecorator(new Env(key, value, null, null, null))));

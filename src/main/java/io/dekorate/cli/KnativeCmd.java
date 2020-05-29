@@ -10,13 +10,17 @@ public class KnativeCmd implements Runnable {
   MetaOptions meta;
 
   @Mixin
+  PodOptions pod;
+
+  @Mixin
   ContainerOptions container;
 
   @Override
   public void run() {
     Generator.init("knative");
-    Generator.applyMeta(meta);
-    Generator.applyMeta(container);
+    Generator.apply(meta);
+    Generator.apply(pod);
+    Generator.apply(container);
     Generator.generate();
   }
 }
