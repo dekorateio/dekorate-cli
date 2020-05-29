@@ -42,11 +42,27 @@ The rest of this document will assume that the tool is available in the `$PATH` 
 dekorate kubernetes
 ```
 
+### Labels
+
+To add one or more labels to the generated manifests, you can use the `-l, --label` option:
+
+```
+dekorate kubernetes -l foo=bar
+```
+
+The option can be used multiple times:
+
+```
+dekorate kubernetes -l foo=bar -l bar=baz
+```
+
+
 ## Generating Openshift manifests
 
 ```
 dekorate openshfit
 ```
+
 
 ## Generating Knative manifests
 
