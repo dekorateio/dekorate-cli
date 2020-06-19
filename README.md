@@ -65,6 +65,23 @@ The rest of this document will assume that the tool is available in the `$PATH` 
 dekorate kubernetes
 ```
 
+### Generator output
+
+The generated files will be found in the output directory of the project _(if the output directory makes sense for the runtime)_ under the `kubernetes`.
+
+#### Java 
+
+For java projects the output directory is determined by the build tool:
+
+- Maven: `target/kubernetes`
+- Gradle: `build/classes/java/kubernetes`
+- SBT: `target/kubernetes`
+- Bazel: `kuberneters`
+
+#### NodeJS
+
+For nodejs project the output directory is always: `kubernetes`.
+
 ### Name and version
 
 To specify the name of the resources inside the generated manifests, you can use the `-n, --name` option:
