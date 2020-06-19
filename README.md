@@ -11,7 +11,30 @@ for Java and non-Java application.
   - Generate resources
   - Modify existing resources
   
-  
+# Supported Runtimes / Frameworks
+
+The list below shows the runtimes and frameworks supported:
+
+- Java
+  - Spring Boot
+  - Thorntail
+  - Generic Java Applications
+    - maven
+    - gralde
+    - sbt
+    - bazel
+    
+- Nodejs
+
+For supported runtimes the tool will be able to extract information like:
+
+- name
+- version
+- ports used
+- how to run
+
+That will be applied to the generated manifests. 
+
 # Known issues
 This tool requires `quarkus-picocli` which is not yet releashed.
 So, at the moment is not possible to build a native binary (it's only possible using quarkus snapshot builds).
