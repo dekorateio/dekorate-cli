@@ -37,9 +37,12 @@ public class Generator implements WithProject {
 
     Project project = new FileProjectFactory().create(new File(DOT));
 
-    final SessionWriter sessionWriter = new SimpleFileWriter(
-        project.getBuildInfo().getClassOutputDir().getParent().resolve(DOT_DEKORATE),
-        project.getBuildInfo().getClassOutputDir().getParent().resolve(KUBERNETES), true, targets);
+    System.out.println("Project root:"+ project.getRoot());
+    System.out.println(project.getRoot().toAbsolutePath().toString());
+
+    final SessionWriter sessionWriter = project.getBuildInfo().getClassOutputDir() != null
+      ? new SimpleFileWriter(project.getBuildInfo().getClassOutputDir().getParent().resolve(DOT_DEKORATE), project.getBuildInfo().getClassOutputDir().getParent().resolve(KUBERNETES), true, targets)
+      : new SimpleFileWriter(project.getRoot().resolve(DOT_DEKORATE), project.getRoot().resolve(DOT_DEKORATE).resolve(KUBERNETES), true, targets);
 
     final SessionReader sessionReader = new SimpleFileReader(project.getRoot().resolve(SRC).resolve(MAIN).resolve(KUBERNETES), targets);
     sessionWriter.setProject(project);
@@ -47,6 +50,7 @@ public class Generator implements WithProject {
     final Session session = Session.getSession();
     session.setWriter(sessionWriter);
     session.setReader(sessionReader);
+    session.enable(platforms);
   } 
 
   public static void generate() {
