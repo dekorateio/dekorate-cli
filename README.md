@@ -93,20 +93,7 @@ This will only work provided that you have `GraalVM 19.3.1`. For more details pl
 
 ### Generator output
 
-The generated files will be found in the output directory of the project _(if the output directory makes sense for the runtime)_ under the `kubernetes`.
-
-#### Java 
-
-For java projects the output directory is determined by the build tool:
-
-- Maven: `target/kubernetes`
-- Gradle: `build/classes/java/kubernetes`
-- SBT: `target/kubernetes`
-- Bazel: `kuberneters`
-
-#### NodeJS
-
-For nodejs project the output directory is always: `kubernetes`.
+For all project types the output directory is always: `.dekorate/kubernetes`.
 
 ### Name and version
 
