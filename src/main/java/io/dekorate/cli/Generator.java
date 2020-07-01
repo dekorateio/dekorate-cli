@@ -2,6 +2,7 @@
 package io.dekorate.cli;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,6 +30,7 @@ public class Generator implements WithProject {
   private static final String DOT_DEKORATE = ".dekorate";
   private static final String KUBERNETES = "kubernetes";
   private static final String SRC = "src";
+  private static final String CONFIG = "config";
   private static final String MAIN = "main";
   private static final String RESOURCES = "resources";
 
@@ -43,11 +45,10 @@ public class Generator implements WithProject {
       throw new RuntimeException("Failed to collect project info!\nMake sure that a project is of a supported type: [maven, gralde, sbt, bazel, npm].");
     }
 
-    final SessionWriter sessionWriter = project.getBuildInfo().getClassOutputDir() != null
-      ? new SimpleFileWriter(project.getBuildInfo().getClassOutputDir().getParent().resolve(DOT_DEKORATE), project.getBuildInfo().getClassOutputDir().getParent().resolve(KUBERNETES), true, targets)
-      : new SimpleFileWriter(project.getRoot().resolve(DOT_DEKORATE), project.getRoot().resolve(DOT_DEKORATE).resolve(KUBERNETES), true, targets);
+    final SessionWriter sessionWriter = new SimpleFileWriter(project.getRoot().resolve(DOT_DEKORATE), project.getRoot().resolve(DOT_DEKORATE).resolve(KUBERNETES), true, targets);
 
-    final SessionReader sessionReader = new SimpleFileReader(project.getRoot().resolve(SRC).resolve(MAIN).resolve(KUBERNETES), targets);
+    final SessionReader sessionReader = new SimpleFileReader(getInputPath(project), targets);
+
     sessionWriter.setProject(project);
 
     final Session session = Session.getSession();
@@ -99,6 +100,17 @@ public class Generator implements WithProject {
 
     if (container.envFromConfigMaps != null) {
       container.envFromConfigMaps.forEach(c -> session.resources().decorate(new AddEnvVarDecorator(new EnvBuilder().withConfigmap(c).build())));
+    }
+  }
+
+
+  public static Path getInputPath(Project project) {
+    String tool = project.getBuildInfo().getBuildTool();
+    switch (tool) {
+    case "npm":
+      return project.getRoot().resolve(CONFIG).resolve(KUBERNETES);
+    default:
+      return project.getRoot().resolve(SRC).resolve(MAIN).resolve(KUBERNETES);
     }
   }
 }
