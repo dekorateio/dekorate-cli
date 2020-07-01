@@ -1,0 +1,9 @@
+#!/bin/bash
+
+VERSION=`ls ~/.m2/repository/io/dekorate/dekorate-cli/ | grep -v xml | sort -r | uniq | head -n 1`
+
+if [ -z "$VERSION" ]; then
+  echo "Failed to detect dekorate-cli under ${HOME}/.m2/repository/ . Ensure you install the binary locally!"
+fi
+java -jar ~/.m2/repository/io/dekorate/dekorate-cli/${VERSION}/dekorate-cli-${VERSION}-runner.jar $*
+
