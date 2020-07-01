@@ -4,7 +4,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Mixin;
 
 @Command(name = "openshift", mixinStandardHelpOptions = true, version = "0.1", description = "Generates Openshift manifests.")
-public class OpenshiftCmd implements Runnable {
+public class OpenshiftCmd implements BaseCommand {
 
   @Mixin
   MetaOptions meta;
@@ -16,7 +16,7 @@ public class OpenshiftCmd implements Runnable {
   ContainerOptions container;
 
   @Override
-  public void run() {
+  public void execute() {
     Generator.init("openshift");
     Generator.apply(meta);
     Generator.apply(container);
