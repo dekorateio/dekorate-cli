@@ -7,7 +7,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Mixin;
 
 @Command(name = "kubernetes", mixinStandardHelpOptions = true, version = "0.1", description = "Generates Kubernetes manifests.")
-public class KubernetesCmd implements Runnable {
+public class KubernetesCmd implements BaseCommand {
 
   @Mixin
   MetaOptions meta;
@@ -19,7 +19,7 @@ public class KubernetesCmd implements Runnable {
   ContainerOptions container;
 
   @Override
-  public void run() {
+  public void execute() {
     Generator.init("kubernetes");
     Generator.apply(meta);
     Generator.apply(pod);

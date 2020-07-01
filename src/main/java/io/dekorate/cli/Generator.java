@@ -35,10 +35,13 @@ public class Generator implements WithProject {
   public static void init(String... platforms)  {
     Set<String> targets = new HashSet<>(Arrays.asList(platforms));
 
-    Project project = new FileProjectFactory().create(new File(DOT));
+    Project project = null;
 
-    System.out.println("Project root:"+ project.getRoot());
-    System.out.println(project.getRoot().toAbsolutePath().toString());
+    try {
+      project = new FileProjectFactory().create(new File(DOT));
+    } catch (Throwable t) {
+      throw new RuntimeException("Failed to collect project info!\nMake sure that a project is of a supported type: [maven, gralde, sbt, bazel, npm].");
+    }
 
     final SessionWriter sessionWriter = project.getBuildInfo().getClassOutputDir() != null
       ? new SimpleFileWriter(project.getBuildInfo().getClassOutputDir().getParent().resolve(DOT_DEKORATE), project.getBuildInfo().getClassOutputDir().getParent().resolve(KUBERNETES), true, targets)

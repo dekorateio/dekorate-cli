@@ -4,12 +4,12 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Mixin;
 
 @Command(name = "tekton", mixinStandardHelpOptions = true, version = "0.1", description = "Generates Tekton manifests.")
-public class TektonCmd implements Runnable {
+public class TektonCmd implements BaseCommand {
   @Mixin
   MetaOptions meta;
 
   @Override
-  public void run() {
+  public void execute() {
     Generator.init("tekton-pipeline", "tekton-pipeline-run", "tekton-task", "tekton-task-run");
     Generator.apply(meta);
     Generator.generate();

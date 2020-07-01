@@ -35,6 +35,13 @@ For supported runtimes the tool will be able to extract information like:
 
 That will be applied to the generated manifests. 
 
+If the project type is unsupported the command will fail:
+
+    # dekorate kuberentes
+    
+    Failed to collect project info!
+    Make sure that a project is of a supported type: [maven, gralde, sbt, bazel, npm].
+
 # Known issues
 
 Currently, it is not possible to build a native binary (see https://github.com/dekorateio/dekorate-cli/issues/16).
