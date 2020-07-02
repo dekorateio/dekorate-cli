@@ -15,9 +15,11 @@ import io.dekorate.kubernetes.config.Annotation;
 import io.dekorate.kubernetes.config.Env;
 import io.dekorate.kubernetes.config.EnvBuilder;
 import io.dekorate.kubernetes.config.Label;
+import io.dekorate.kubernetes.config.PortBuilder;
 import io.dekorate.kubernetes.decorator.AddAnnotationDecorator;
 import io.dekorate.kubernetes.decorator.AddEnvVarDecorator;
 import io.dekorate.kubernetes.decorator.AddLabelDecorator;
+import io.dekorate.kubernetes.decorator.AddPortDecorator;
 import io.dekorate.processor.SimpleFileReader;
 import io.dekorate.processor.SimpleFileWriter;
 import io.dekorate.project.FileProjectFactory;
@@ -101,7 +103,13 @@ public class Generator implements WithProject {
     if (container.envFromConfigMaps != null) {
       container.envFromConfigMaps.forEach(c -> session.resources().decorate(new AddEnvVarDecorator(new EnvBuilder().withConfigmap(c).build())));
     }
+
+if (container.ports != null) {
+  container.ports.forEach((key,value) -> session.resources().decorate(new AddPortDecorator(new PortBuilder().withName(key).withContainerPort(value).build())));
+    }
+
   }
+
 
 
   public static Path getInputPath(Project project) {

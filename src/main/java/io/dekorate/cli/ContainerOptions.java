@@ -17,4 +17,8 @@ public class ContainerOptions {
   @Option(names = { "-ec", "--env-from-configmap" }, description = {"Specify one or more configmaps to be added as envrionment variable sources.", "These are going to be added to all containers." })
   protected List<String> envFromConfigMaps;
 
+  @Option(names = { "-p", "--port" }, description = {"Specify one or more name/port pairs (e.g. http=8080).", "These are going to be added to all containers." })
+  protected Map<String, Integer> ports;
+ 
+
 }
