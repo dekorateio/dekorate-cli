@@ -160,6 +160,20 @@ To add a configmap as an environment variable source, you can use the `-es, --en
     dekorate kubernetes -es my-configmap
 
 
+### Ports
+
+To add ports to the container, you can use the `-p, --port` option:
+
+    dekorate kubernetes -p http=8080
+    
+The option accepts a key/value pair where the key is the port name and the value the container port number.
+
+#### Exposing Http Ports
+
+Http ports (ports named: http, https, web etc) can be exposed via Ingress (or Route if using Openshift), using the `-x, --expose` option:
+
+    dekorate kuberentes -p http=8080 -x
+
 ## Generating Openshift manifests
 
     dekorate openshfit
