@@ -20,5 +20,7 @@ public class ContainerOptions {
   @Option(names = { "-p", "--port" }, description = {"Specify one or more name/port pairs (e.g. http=8080).", "These are going to be added to all containers." })
   protected Map<String, Integer> ports;
  
+  @Option(names = { "-x", "--expose" }, description = {"Expose service via Ingress, Route etc."})
+  protected boolean exposeEnabled;
 
 }
