@@ -8,6 +8,8 @@ public class ExposeServiceConfigurator extends Configurator<KubernetesConfigFlue
 
   @Override
   public void visit(KubernetesConfigFluent<?> config) {
-    config.withExpose(true);
+    config.withNewIngress()
+            .withExpose(true)
+          .endIngress();
   }
 }

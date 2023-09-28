@@ -25,6 +25,7 @@ import io.dekorate.processor.SimpleFileWriter;
 import io.dekorate.project.FileProjectFactory;
 import io.dekorate.project.Project;
 import io.dekorate.utils.Strings;
+import io.fabric8.kubernetes.api.model.EnvVarBuilder;
 
 public class Generator implements WithProject {
 
@@ -62,54 +63,56 @@ public class Generator implements WithProject {
   public static void generate() {
     final Session session = Session.getSession();
     session.close();
-  }
+ }
 
   public static void apply(MetaOptions meta) {
     Session session = Session.getSession();
     if (Strings.isNotNullOrEmpty(meta.name)) {
-      session.configurators().add(new ApplyNameConfigurator(meta.name));
+      session.getConfigurationRegistry().add(new ApplyNameConfigurator(meta.name));
     }
 
     if (Strings.isNotNullOrEmpty(meta.version)) {
-      session.configurators().add(new ApplyVersionConfigurator(meta.version));
+      session.getConfigurationRegistry().add(new ApplyVersionConfigurator(meta.version));
     }
     
     if (meta.annotations != null) {
-      meta.annotations.forEach((key,value) -> session.resources().decorate(new AddAnnotationDecorator(new Annotation(key, value))));
+      meta.annotations.forEach((key,value) -> session.getResourceRegistry().decorate(new AddAnnotationDecorator(new Annotation(key, value, new String[0]))));
     }
     if (meta.labels != null) {
-      meta.labels.forEach((key,value) -> session.resources().decorate(new AddLabelDecorator(new Label(key, value))));
+      meta.labels.forEach((key,value) -> session.getResourceRegistry().decorate(new AddLabelDecorator(new Label(key, value, new String[0]))));
     }
   }
 
   public static void apply(PodOptions pod) {
     Session session = Session.getSession();
     if (pod.replicas != 1) {
-      session.resources().decorate(new io.dekorate.kubernetes.decorator.ApplyReplicasDecorator(null, pod.replicas));
-      session.resources().decorate(new io.dekorate.openshift.decorator.ApplyReplicasDecorator(null, pod.replicas));
+      session.getResourceRegistry().decorate(new io.dekorate.kubernetes.decorator.ApplyReplicasToDeploymentDecorator(null, pod.replicas));
+      session.getResourceRegistry().decorate(new io.dekorate.kubernetes.decorator.ApplyReplicasToStatefulSetDecorator(null, pod.replicas));
+      session.getResourceRegistry().decorate(new io.dekorate.openshift.decorator.ApplyReplicasToDeploymentConfigDecorator(null, pod.replicas));
+      session.getResourceRegistry().decorate(new io.dekorate.openshift.decorator.ApplyReplicasToDeploymentConfigDecorator(null, pod.replicas));
     }
   }
 
   public static void apply(ContainerOptions container) {
     Session session = Session.getSession();
     if (container.envVars != null) {
-      container.envVars.forEach((key,value) -> session.resources().decorate(new AddEnvVarDecorator(new Env(key, value, null, null, null))));
+      container.envVars.forEach((key,value) -> session.getResourceRegistry().decorate(new AddEnvVarDecorator(new EnvBuilder().withName(key).withValue(value).build())));
     }
 
     if (container.envFromSecrets != null) {
-      container.envFromSecrets.forEach(s -> session.resources().decorate(new AddEnvVarDecorator(new EnvBuilder().withSecret(s).build())));
+      container.envFromSecrets.forEach(s -> session.getResourceRegistry().decorate(new AddEnvVarDecorator(new EnvBuilder().withSecret(s).build())));
     }
 
     if (container.envFromConfigMaps != null) {
-      container.envFromConfigMaps.forEach(c -> session.resources().decorate(new AddEnvVarDecorator(new EnvBuilder().withConfigmap(c).build())));
+      container.envFromConfigMaps.forEach(c -> session.getResourceRegistry().decorate(new AddEnvVarDecorator(new EnvBuilder().withConfigmap(c).build())));
     }
 
 if (container.ports != null) {
-  container.ports.forEach((key,value) -> session.configurators().add(new AddPort(new PortBuilder().withName(key).withContainerPort(value).build())));
+  container.ports.forEach((key,value) -> session.getConfigurationRegistry().add(new AddPort(new PortBuilder().withName(key).withContainerPort(value).build())));
     }
 
 if (container.exposeEnabled) {
-  session.configurators().add(new ExposeServiceConfigurator());
+  session.getConfigurationRegistry().add(new ExposeServiceConfigurator());
 }
   }
 

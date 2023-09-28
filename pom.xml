@@ -18,7 +18,7 @@
     <quarkus.platform.version>1.5.0.Final</quarkus.platform.version>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
 
-    <dekorate.version>2.0.0-alpha-1</dekorate.version>
+    <dekorate.version>4.0.0</dekorate.version>
   </properties>
 
   <dependencyManagement>
@@ -34,12 +34,6 @@
   </dependencyManagement>
   <dependencies>
         
-    <dependency>
-      <groupId>io.dekorate</groupId>
-      <artifactId>dekorate-nodejs</artifactId>
-      <version>${dekorate.version}</version>
-    </dependency>
-
     <dependency>
       <groupId>io.dekorate</groupId>
       <artifactId>kubernetes-annotations</artifactId>
