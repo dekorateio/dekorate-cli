@@ -6,7 +6,7 @@ import picocli.CommandLine;
 import picocli.CommandLine.RunAll;
 
 @QuarkusMain
-public class Main implements QuarkusApplication {
+public class DekorateCli implements QuarkusApplication {
 
   public int run(String... args) throws Exception {
     CommandLine cmd = new CommandLine(new DekorateCmd())
@@ -18,4 +18,5 @@ public class Main implements QuarkusApplication {
     cmd.setExecutionStrategy(new RunAll());
     return cmd.execute(args);
   }
+
 }

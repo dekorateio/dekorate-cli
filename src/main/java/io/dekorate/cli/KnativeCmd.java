@@ -4,7 +4,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Mixin;
 
 @Command(name = "knative", mixinStandardHelpOptions = true, version = "0.1", description = "Generates Knative manifests.")
-public class KnativeCmd implements BaseCommand {
+public class KnativeCmd extends BaseCommand {
 
   @Mixin
   MetaOptions meta;
