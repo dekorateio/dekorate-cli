@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.dekorate</groupId>
   <artifactId>dekorate-cli</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>999-SNAPSHOT</version>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
@@ -12,13 +12,13 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <quarkus-plugin.version>1.5.0.Final</quarkus-plugin.version>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-    <quarkus.platform.version>1.5.0.Final</quarkus.platform.version>
+    <quarkus.version>3.4.1</quarkus.version>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
 
-    <dekorate.version>2.0.0-alpha-1</dekorate.version>
+    <dekorate.version>3.7.3</dekorate.version>
+    <quarkus.package.type>uber-jar</quarkus.package.type>
   </properties>
 
   <dependencyManagement>
@@ -26,7 +26,7 @@
       <dependency>
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>${quarkus.platform.artifact-id}</artifactId>
-        <version>${quarkus.platform.version}</version>
+        <version>${quarkus.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -36,7 +36,7 @@
         
     <dependency>
       <groupId>io.dekorate</groupId>
-      <artifactId>dekorate-nodejs</artifactId>
+      <artifactId>dekorate-core</artifactId>
       <version>${dekorate.version}</version>
     </dependency>
 
@@ -80,6 +80,10 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-devtools-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>
       <scope>test</scope>
     </dependency>
@@ -94,7 +98,7 @@
       <plugin>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
-        <version>${quarkus-plugin.version}</version>
+        <version>${quarkus.version}</version>
         <executions>
           <execution>
             <goals>

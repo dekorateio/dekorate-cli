@@ -7,7 +7,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Mixin;
 
 @Command(name = "kubernetes", mixinStandardHelpOptions = true, version = "0.1", description = "Generates Kubernetes manifests.")
-public class KubernetesCmd implements BaseCommand {
+public class KubernetesCmd extends BaseCommand {
 
   @Mixin
   MetaOptions meta;
